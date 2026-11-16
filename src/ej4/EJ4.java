@@ -9,21 +9,35 @@ package ej4;
  * @author Administrator
  */
 import javax.swing.JOptionPane;
+
 public class EJ4 {
 
-    /**
-     * @param args the command line arguments
-     */
+    public static double leerRadio(String mensaje) {
+        while (true) {
+            String entrada = JOptionPane.showInputDialog(null, mensaje);
+            if (entrada == null) {
+                System.exit(0); // el usuario canceló
+            }
+            try {
+                double valor = Double.parseDouble(entrada);
+                if (valor > 0) {
+                    return valor;
+                }
+                JOptionPane.showMessageDialog(null, "El radio debe ser mayor que 0.");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un número.");
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        //Área y perímetro de un círculo
-        double radio = Double.parseDouble(
-                JOptionPane.showInputDialog(
-                        null, "Ingrese el radio del círculo:"));
-        double area = 0;
-        double perimetro = 0;
-        area = Math.PI * radio * radio;
-        perimetro = 2 * Math.PI * radio;
-        System.out.println("El área del círculo es: " + area);
-        System.out.println("El perímetro del círculo es: " + perimetro);
+        double radio = leerRadio("Ingrese el radio del círculo:");
+
+        double area = Math.PI * radio * radio;
+        double perimetro = 2 * Math.PI * radio;
+
+        JOptionPane.showMessageDialog(null,
+                "El área del círculo es: " + String.format("%.2f", area) + "\n"
+                + "El perímetro del círculo es: " + String.format("%.2f", perimetro));
     }
 }
