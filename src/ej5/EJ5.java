@@ -9,27 +9,47 @@ package ej5;
  * @author Administrator
  */
 import javax.swing.JOptionPane;
+
 public class EJ5 {
 
-    /**
-     * @param args the command line arguments
-     */
+    public static double leerDiagonal(String mensaje) {
+        while (true) {
+            String entrada = JOptionPane.showInputDialog(null, mensaje);
+            if (entrada == null) {
+                System.exit(0); // el usuario canceló
+            }
+            try {
+                double valor = Double.parseDouble(entrada);
+                if (valor > 0) {
+                    return valor;
+                }
+                JOptionPane.showMessageDialog(null, "La diagonal debe ser mayor que 0.");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un número.");
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        //Área y perímetro de un rombo
-        double diagonalMayor = Double.parseDouble(
-                JOptionPane.showInputDialog(
-                        null, "Ingrese la diagonal mayor:"));
-        double diagonalMenor = Double.parseDouble(
-                JOptionPane.showInputDialog(
-                        null, "Ingrese la diagonal menor:"));
-        double lado = Double.parseDouble(
-                JOptionPane.showInputDialog(
-                        null, "Ingrese el lado del rombo:"));
-        double area = 0;
-        double perimetro = 0;
-        area = (diagonalMayor * diagonalMenor) / 2;
-        perimetro = 4 * lado;
-        System.out.println("El área del rombo es: " + area);
-        System.out.println("El perímetro del rombo es: " + perimetro);
+        double diagMayor = leerDiagonal("Ingrese la diagonal mayor:");
+        double diagMenor = leerDiagonal("Ingrese la diagonal menor:");
+
+        while (diagMenor > diagMayor) {
+            JOptionPane.showMessageDialog(null,
+                    "La diagonal menor no puede ser mayor que la diagonal mayor.");
+            diagMenor = leerDiagonal("Ingrese la diagonal menor:");
+        }
+
+        double mitadMayor = diagMayor / 2;
+        double mitadMenor = diagMenor / 2;
+        double lado = Math.sqrt(mitadMayor * mitadMayor + mitadMenor * mitadMenor);
+
+        double perimetro = lado * 4;
+        double area = diagMayor * diagMenor / 2;
+
+        JOptionPane.showMessageDialog(null,
+                "Lado del rombo: " + String.format("%.2f", lado) + "\n"
+                + "Perímetro: " + String.format("%.2f", perimetro) + "\n"
+                + "Área: " + String.format("%.2f", area));
     }
 }
